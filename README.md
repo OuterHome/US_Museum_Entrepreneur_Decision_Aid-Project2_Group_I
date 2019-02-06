@@ -1,6 +1,6 @@
 # Project2_GroupI
 
-Project Abstract: Design a utility for entrepreneurs interested in opening a new museum,
+Project Abstract: Design a visual decision-aid for entrepreneurs interested in opening a new museum,
 to include interactive map displaying a heat map layer of museums across the United States,
 a search tool to determine the number of museums and relevant information in a particular radius,
 and an overlay choropleth layer displaying the average revenue of museums by zip code. If time
