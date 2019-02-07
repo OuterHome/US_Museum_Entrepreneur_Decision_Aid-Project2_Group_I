@@ -8,7 +8,7 @@ and a bar chart for income. If time allows, we could also add population data fr
 by population ratio for a zip code. 
 
 In terms of the project requirements, we will be building a dashboard/map page using leaflet and 
-plotly, pulling from a SQlite DB. The app will run on a local web server. We will pay particular
+plotly, pulling from a mysql db. The app will run on a local web server. We will pay particular
 attention to styling and effective visual display of info relevant to our prospective user. 
 
 Raw Data: Museums, Aquariums, and Zoos
@@ -26,7 +26,7 @@ Project steps:
 
 1. Complete project abstract and chart list (basic goal: 2 charts [revenue and income] and one map layer, tbd), and get approval
 2. Filter only for data required for the analysis/charts/etc we require using tool of choice
-3. Create SQLite database and load filtered data
+3. Create mysql database and load filtered data
 4. Complete "app.py" flask app file for communication between sqlite and flask, and flask 
 and javascript in the browser (via API)
 5. Complete html.index for communication between flask app and the browser
