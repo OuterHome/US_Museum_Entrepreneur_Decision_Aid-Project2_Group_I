@@ -7,7 +7,7 @@ and an overlay choropleth layer displaying the average revenue of museums by zip
 and a bar chart for income. If time allows, we could also add population data from the census to compute a revenue 
 by population ratio for a zip code. 
 
-![alt text](http://url/to/Project2_Architecture.png)
+![alt text](https://github.com/PrairieDogCity/Project2_GroupI/blob/master/Project2_Architecture.png)
 
 In terms of the project requirements, we will be building a dashboard/map page using leaflet and 
 plotly, pulling from a mysql db. The app will run on a local web server. We will pay particular
