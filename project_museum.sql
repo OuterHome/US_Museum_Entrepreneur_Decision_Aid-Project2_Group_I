@@ -17,3 +17,5 @@ latitude decimal(8,6),
 longitude decimal(8,6),
 income decimal(8,1),
 revenue decimal(8,1));
+
+select * from museum;
