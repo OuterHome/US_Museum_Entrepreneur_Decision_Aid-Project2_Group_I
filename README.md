@@ -26,13 +26,13 @@ Add a column for non-profits, to be able to filter them out
 
 Project steps: 
 
-1. Complete project abstract and chart list (basic goal: 2 charts [revenue and income] and one map layer, tbd), and get approval
-2. Filter only for data required for the analysis/charts/etc we require using tool of choice
-3. Create mysql database and load filtered data
+~~1. Complete project abstract and chart list (basic goal: 2 charts [revenue and income] and one map layer, museum display by type), and get approval~~
+~~2. Filter only for data required for the analysis/charts/etc we require using tool of choice~~
+~~3. Create mysql database and load filtered data~~
 4. Complete "app.py" flask app file for communication between mysql and flask, and flask 
 and javascript in the browser (via API)
 5. Complete html.index for communication between flask app and the browser
-6. Compose rough wireframe of HTML index page
+~~6. Compose rough wireframe of HTML index page~~
 7. Complete "app.js" file to bring in data from mysql via flask, build the charts and
 maps, enable user selections, and add visual styling to all charts
 8. Complete "style.css" to customize styling of the HTML index page
