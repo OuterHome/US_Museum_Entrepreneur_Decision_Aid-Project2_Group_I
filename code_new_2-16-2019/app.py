@@ -60,6 +60,10 @@ def museumsMap():
         mapDataDict["museum_type"] = result.museum_type
         mapDataDict["latitude"] = result.latitude
         mapDataDict["Longitude"] = result.Longitude
+        mapDataDict["Income"] = result.income
+        mapDataDict["Revenue"] = result.Revenue
+        mapDataDict["State"] = result.state
+
         mapData.append(mapDataDict)
     return jsonify(mapData)
 
