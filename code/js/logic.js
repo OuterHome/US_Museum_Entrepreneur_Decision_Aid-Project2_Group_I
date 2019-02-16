@@ -112,8 +112,41 @@ d3.csv('museums.csv')
             lon = museumBasicData.Longitude,
             name = museumBasicData['Museum Name'],
             type = museumBasicData['Museum Type'];
+            income = museumBasicData.Income;
+            revenue = museumBasicData.Revenue;
 
             type.trim();
+
+          var trace1 = {
+              x: name,
+              y: income,
+              type: 'bar',
+              text: ['4.17 below the mean', '4.17 below the mean', '0.17 below the mean', '0.17 below the mean', '0.83 above the mean', '7.83 above the mean'],
+              marker: {
+                color: 'rgb(142,124,195)'
+              }
+            };
+            
+            var data = [trace1];
+            
+            var layout = {
+              title: 'Number of Graphs Made this Week',
+              font:{
+                family: 'Raleway, sans-serif'
+              },
+              showlegend: false,
+              xaxis: {
+                tickangle: -45
+              },
+              yaxis: {
+                zeroline: false,
+                gridwidth: 2
+              },
+              bargap :0.05
+            };
+            
+            Plotly.newPlot('plot', data, layout);
+            Plotly.newPlot('plot2',data2,layout);
         
         // Earthquake magnitude >= 2 and < 3.5, to catch some weird earthquakes below 2.5 :P
         if (type === 'HISTORY MUSEUM') {
@@ -253,3 +286,5 @@ var map = L.map("mapid", {
         };
         // Add the info legend to the map
         legend.addTo(map); */
+
+      
