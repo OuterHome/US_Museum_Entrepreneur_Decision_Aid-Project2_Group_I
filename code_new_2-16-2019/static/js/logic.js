@@ -239,10 +239,11 @@ function buildPlot() {
     // response.map(data => map.Income)
     // response.map(data => map.museum_name)
     var trace = {
-      type: "bar",
+      type: "scatter",
       name: "Museum Income",
       y: response.map(data => data.Income),
       x: response.map(data => data.museum_name),
+      mode: "markers",
       transforms: [{
         type: 'filter',
         target: 'y',
@@ -253,9 +254,9 @@ function buildPlot() {
         color: "#17BECF"
       }
     };
+
     console.log("yy55 " + JSON.stringify(trace));
     var data = [trace];
-
     var layout = {
       title: "Museum Income",
       xaxis: {
@@ -272,4 +273,47 @@ function buildPlot() {
 }
 
 buildPlot();
+var url = "/map/";
+
+function buildPlot2() {
+  d3.json(url).then(function(response) {
+
+    console.log("DATATATA: " + JSON.stringify(response));
+    // response.map(data => map.Income)
+    // response.map(data => map.museum_name)
+    var trace2 = {
+      type: "scatter",
+      name: "Museum Revenue",
+      y: response.map(data => data.Revenue),
+      x: response.map(data => data.museum_name),
+      mode: "markers",
+      transforms: [{
+        type: 'filter',
+        target: 'y',
+        operation: '>',
+        value: 0
+      }],
+      line: {
+        color: "#17BECF"
+      }
+    };
+
+    console.log("yy55 " + JSON.stringify(trace2));
+    var data2 = [trace2];
+    var layout = {
+      title: "Museum Revenue",
+      xaxis: {
+        type: "linear"
+      },
+      yaxis: {
+        autorange: true,
+        type: "log"
+      }
+    };
+
+    Plotly.newPlot("plot2", data2);
+  });
+}
+
+buildPlot2();
 
