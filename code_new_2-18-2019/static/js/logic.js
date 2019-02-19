@@ -601,7 +601,7 @@ var url = "/map/";
           type: 'filter',
           target: 'y',
           operation: '<',
-          value: 1000000
+          value: 2000000
         },
       ],
       };
@@ -622,7 +622,7 @@ var url = "/map/";
           type: 'filter',
           target: 'y',
           operation: '<',
-          value: 1000000
+          value: 2000000
         }
       ],
       };
@@ -643,7 +643,7 @@ var url = "/map/";
           type: 'filter',
           target: 'y',
           operation: '<',
-          value: 1000000
+          value: 2000000
         }
       ],
       };
@@ -664,7 +664,7 @@ var url = "/map/";
           type: 'filter',
           target: 'y',
           operation: '<',
-          value: 1000000
+          value: 2000000
         }
       ],
       };
@@ -685,7 +685,7 @@ var url = "/map/";
           type: 'filter',
           target: 'y',
           operation: '<',
-          value: 1000000
+          value: 2000000
         }
       ],
       };
@@ -706,7 +706,7 @@ var url = "/map/";
           type: 'filter',
           target: 'y',
           operation: '<',
-          value: 1000000
+          value: 2000000
         }
       ],
       };
@@ -726,7 +726,7 @@ var url = "/map/";
           type: 'filter',
           target: 'y',
           operation: '<',
-          value: 1000000
+          value: 2000000
         }
       ],
       };
@@ -747,7 +747,7 @@ var url = "/map/";
           type: 'filter',
           target: 'y',
           operation: '<',
-          value: 1000000
+          value: 2000000
         }
       ],
       };
@@ -761,8 +761,11 @@ var url = "/map/";
             size: 30
           }},
 
+          paper_bgcolor: '#cccccc',
+          plot_bgcolor: '#cccccc',
+
         yaxis: {   
-          title: "Museum Income (Filtered to <$1 mil)",
+          title: "Museum Income (Filtered to <$2 mil)",
           zeroline: true,
           titlefont: {
             size: 18
@@ -794,7 +797,7 @@ var trace1 = {
     type: 'filter',
     target: 'y',
     operation: '<',
-    value: 1000000
+    value: 2000000
   },
 ],
 };
@@ -815,7 +818,7 @@ var trace2 = {
     type: 'filter',
     target: 'y',
     operation: '<',
-    value: 1000000
+    value: 2000000
   }
 ],
 };
@@ -836,7 +839,7 @@ var trace3 = {
     type: 'filter',
     target: 'y',
     operation: '<',
-    value: 1000000
+    value: 2000000
   }
 ],
 };
@@ -857,7 +860,7 @@ var trace4 = {
     type: 'filter',
     target: 'y',
     operation: '<',
-    value: 1000000
+    value: 2000000
   }
 ],
 };
@@ -878,7 +881,7 @@ var trace5 = {
     type: 'filter',
     target: 'y',
     operation: '<',
-    value: 1000000
+    value: 2000000
   }
 ],
 };
@@ -899,7 +902,7 @@ var trace6 = {
     type: 'filter',
     target: 'y',
     operation: '<',
-    value: 1000000
+    value: 2000000
   }
 ],
 };
@@ -919,7 +922,7 @@ var trace7 = {
     type: 'filter',
     target: 'y',
     operation: '<',
-    value: 1000000
+    value: 2000000
   }
 ],
 };
@@ -940,7 +943,7 @@ var trace8 = {
     type: 'filter',
     target: 'y',
     operation: '<',
-    value: 1000000
+    value: 2000000
   }
 ],
 };
@@ -954,8 +957,11 @@ var layout = {
       size: 30
     }},
 
+  paper_bgcolor: '#cccccc',
+  plot_bgcolor: '#cccccc',
+
   yaxis: {   
-    title: "Museum Revenue (Filtered to <$1 mil)",
+    title: "Museum Revenue (Filtered to <$2 mil)",
     zeroline: true,
     titlefont: {
       size: 18
