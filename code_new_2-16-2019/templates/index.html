@@ -18,11 +18,20 @@
   <!-- Icons CSS -->
   <link rel="stylesheet" type="text/css" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/leaflet.extra-markers.min.css') }}"></script>
-  <!-- <link rel="stylesheet" href="../css/leaflet.extra-markers.min.css"> -->
 
   <!-- Marker Cluster CSS -->
   <!-- <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.0.3/dist/MarkerCluster.css">
   <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.0.3/dist/MarkerCluster.Default.css"> -->
+
+  <!-- Leaflet-search-->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/leaflet-search.css') }}"></script>
+
+  <!-- leaflet-groupedlayercontrol -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/leaflet.groupedlayercontrol.min.css') }}"></script>
+
+  <!-- Leaflet-list_markers -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/leaflet-list-markers.min.css') }}"></script>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/leaflet-list-markers.src.css') }}"></script>
 
   <!-- Our CSS -->
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}"></script>
@@ -35,18 +44,11 @@
 
   <div class="container">
     <div class="row">
-      <div class="col-md-12 jumbotron text-center">
-        <h1>Museums, Aquariums, and Zoos </h1>
-        <p>Use the interactive charts below to explore the dataset</p>
+      <div class="col-md-12">
+        <h1 class="text-center"> Museums, Aquariums, and Zoos </h1>
+        <p class="text-center"> Use the map and charts below to help select a new profitable museum site</p>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-2">
-        <div class="well">
-          <h5>SELECT Something we have not made yet:</h5>
-          <select id="selDataset" onchange="optionChanged(this.value)"></select>
-        </div>
-      </div>
   <div class="row">
     <div class="col-md-12">
         <!-- The div that holds our map -->
@@ -67,7 +69,26 @@
   </div>
 
 
+<!--   <div class="row">
+    <div class="col-md-12">
+      <div id="income_plot"></div>
+    </div>
+  </div>
 
+  <div class="row">
+    <div class="col-md-12">
+      <div id="revenue_plot"></div>
+    </div>
+  </div> -->
+
+  <div class="row">
+    <div class="col-md-6">
+      <div id="income_plot"></div>
+    </div>
+    <div class="col-md-6">
+      <div id="revenue_plot"></div>
+    </div>
+  </div>
 
   <!-- Javascript Scripts -->
 
@@ -81,8 +102,6 @@
   <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
   integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
   crossorigin=""></script>
-  <!-- geoCSV for Leaflet -->
-  <!-- <script type="text/javascript" src="js/leaflet.geocsv.js"></script> -->
 
   <!-- Leaflet heatmap plugin-->
   <!-- <script type="text/javascript" src="js/leaflet-heat.js"></script> -->
@@ -102,13 +121,24 @@
   <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
 
    <!-- Leaflet-ajax -->
-   <script type= "text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.js"></script>
 
    <!-- geojson-vt -->
    <script src="https://unpkg.com/geojson-vt@3.2.0/geojson-vt.js"></script>
 
    <!-- leaflet.vectorgrid -->
    <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js"></script>
+
+   <!-- leaflet-search -->
+   <script src="{{ url_for('static', filename='js/leaflet-search.js') }}"></script>
+
+   <!-- leaflet-groupedlayercontrol -->
+   <script src="{{ url_for('static', filename='js/leaflet.groupedlayercontrol.min.js') }}"></script>
+   <!-- <script src="{{ url_for('static', filename='js/leaflet.groupedlayercontrol.min.js.map') }}"></script> -->
+
+  <!-- leaflet-list_markers -->
+  <script src="{{ url_for('static', filename='js/leaflet-list-markers.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/leaflet-list-markers.src.js') }}"></script>
 
   <!-- Main javascript for page -->
   <script src="{{ url_for('static', filename='js/logic.js') }}"></script>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Museums, Aquariums, and Zoos</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css?family=Sanchez" rel="stylesheet">
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css"
+  integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+  crossorigin=""/>
+
+  <!-- Icons CSS -->
+  <link rel="stylesheet" type="text/css" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/leaflet.extra-markers.min.css') }}"></script>
+
+  <!-- Marker Cluster CSS -->
+  <!-- <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.0.3/dist/MarkerCluster.css">
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.0.3/dist/MarkerCluster.Default.css"> -->
+
+  <!-- Leaflet-search-->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/leaflet-search.css') }}"></script>
+
+  <!-- leaflet-groupedlayercontrol -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/leaflet.groupedlayercontrol.min.css') }}"></script>
+
+  <!-- Leaflet-list_markers -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/leaflet-list-markers.min.css') }}"></script>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/leaflet-list-markers.src.css') }}"></script>
+
+  <!-- Our CSS -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}"></script>
+  <!-- <link rel="stylesheet" type="text/css" href="../css/style.css"> -->
+  
+</head>
+
+<body>
+
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h1 class="text-center"> Museums, Aquariums, and Zoos </h1>
+        <p class="text-center"> Use the map and charts below to help select a new profitable museum site</p>
+      </div>
+    </div>
+  <div class="row">
+    <div class="col-md-12">
+        <!-- The div that holds our map -->
+      <div id="mapid"></div>
+    </div>
+  </div>
+
+<!--   <div class="row">
+    <div class="col-md-12">
+      <div id="income_plot"></div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div id="revenue_plot"></div>
+    </div>
+  </div> -->
+
+  <div class="row">
+    <div class="col-md-6">
+      <div id="income_plot"></div>
+    </div>
+    <div class="col-md-6">
+      <div id="revenue_plot"></div>
+    </div>
+  </div>
+
+  <!-- Javascript Scripts -->
+
+  <!-- <script src="https://cdn.plot.ly/plotly-1.31.2.min.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+   <!-- MomentJS -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
+
+  <!-- Leaflet JavaScript -->
+  <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
+  integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
+  crossorigin=""></script>
+
+  <!-- Leaflet heatmap plugin-->
+  <!-- <script type="text/javascript" src="js/leaflet-heat.js"></script> -->
+
+  <!-- API Key -->
+  <!-- <script type="text/javascript" src="../js/config.js"></script> -->
+  <script src="{{ url_for('static', filename='js/config.js') }}"></script>
+
+  <!-- Icons -->
+  <script src="{{ url_for('static', filename='js/leaflet.extra-markers.min.js') }}"></script>
+  <!-- <script src="../js/leaflet.extra-markers.min.js"></script> -->
+
+  <!-- Marker Cluster JS -->
+  <!-- <script type="text/javascript" src="https://unpkg.com/leaflet.markercluster@1.0.3/dist/leaflet.markercluster.js"></script> -->
+
+  <!-- polyfill.io is library for using newer JavaScript features in older browers (such as Object.assign) -->
+  <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+
+   <!-- Leaflet-ajax -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.js"></script>
+
+   <!-- geojson-vt -->
+   <script src="https://unpkg.com/geojson-vt@3.2.0/geojson-vt.js"></script>
+
+   <!-- leaflet.vectorgrid -->
+   <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js"></script>
+
+   <!-- leaflet-search -->
+   <script src="{{ url_for('static', filename='js/leaflet-search.js') }}"></script>
+
+   <!-- leaflet-groupedlayercontrol -->
+   <script src="{{ url_for('static', filename='js/leaflet.groupedlayercontrol.min.js') }}"></script>
+   <!-- <script src="{{ url_for('static', filename='js/leaflet.groupedlayercontrol.min.js.map') }}"></script> -->
+
+  <!-- leaflet-list_markers -->
+  <script src="{{ url_for('static', filename='js/leaflet-list-markers.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/leaflet-list-markers.src.js') }}"></script>
+
+  <!-- Main javascript for page -->
+  <script src="{{ url_for('static', filename='js/logic.js') }}"></script>
+  <!-- <script type="text/javascript" src="../js/logic.js"></script> -->
+ 
+</body>
+
+</html>

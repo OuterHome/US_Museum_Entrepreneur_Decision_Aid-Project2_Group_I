@@ -56,14 +56,19 @@ def museumsMap():
     mapData = []
     for result in results:
         mapDataDict = {}
+        mapDataDict["museum_id"] = result.museum_id
         mapDataDict["museum_name"] = result.museum_name
         mapDataDict["museum_type"] = result.museum_type
         mapDataDict["latitude"] = result.latitude
         mapDataDict["Longitude"] = result.Longitude
         mapDataDict["Income"] = result.income
         mapDataDict["Revenue"] = result.Revenue
+<<<<<<< Updated upstream
         mapDataDict["State"] = result.state
 
+=======
+        mapDataDict["state"] = result.state
+>>>>>>> Stashed changes
         mapData.append(mapDataDict)
     return jsonify(mapData)
 

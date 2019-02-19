@@ -60,21 +60,24 @@ def museumsMap():
         mapDataDict["museum_type"] = result.museum_type
         mapDataDict["latitude"] = result.latitude
         mapDataDict["Longitude"] = result.Longitude
+        mapDataDict["Revenue"] = result.Revenue
+        mapDataDict["income"] = result.income
+        mapDataDict["state"] = result.state
         mapData.append(mapDataDict)
     return jsonify(mapData)
 
-@app.route("/plotly/")
-def plots():
-    results = session.query(Museum).all()
-    plotData = []
-    for result in results:
-        plotDataDict = {}
-        plotDataDict["museum_name"] = result.museum_name
-        plotDataDict["museum_type"] = result.museum_type
-        plotDataDict["Revenue"] = result.Revenue
-        plotDataDict["income"] = result.income
-        plotData.append(plotDataDict)
-    return jsonify(plotData)
+# @app.route("/plot/")
+# def plots():
+#     results = session.query(Museum).all()
+#     plotData = []
+#     for result in results:
+#         plotDataDict = {}
+#         plotDataDict["museum_name"] = result.museum_name
+#         plotDataDict["museum_type"] = result.museum_type
+#         plotDataDict["Revenue"] = result.Revenue
+#         plotDataDict["income"] = result.income
+#         plotData.append(plotDataDict)
+#     return jsonify(plotData)
 
 
 if __name__ == '__main__':

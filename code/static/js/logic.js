@@ -1,43 +1,11 @@
 // Initialize the LayerGroups we'll be using
 var layers = {
-  museumPoints: new L.LayerGroup()
+  museumPoints: new L.LayerGroup(),
+  stateBounds: new L.LayerGroup()
+  //searchLayer: new L.LayerGroup()
   //museumMarkers: new L.MarkerClusterGroup()
 };
        
-  // Create the tile layer that will be the background of our map
-  var darkMap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/dark-v9/tiles/256/{z}/{x}/{y}?access_token={accessToken}", {
-  attribution: "Map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"http://mapbox.com\">Mapbox</a>",
-  maxZoom: 18,
-  id: "mapbox.dark",
-  accessToken: API_KEY
-});
-
-var outdoorsMap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/outdoors-v9/tiles/256/{z}/{x}/{y}?access_token={accessToken}", {
-  attribution: "Map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"http://mapbox.com\">Mapbox</a>",
-  maxZoom: 18,
-  id: "mapbox.outdoors",
-  accessToken: API_KEY
-});
-
-var satelliteMap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/256/{z}/{x}/{y}?access_token={accessToken}", {
-  attribution: "Map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"http://mapbox.com\">Mapbox</a>",
-  maxZoom: 18,
-  id: "mapbox.satellite",
-  accessToken: API_KEY
-});
-
-// Create overlays object for toggling
-var overlayMaps = {
-    "Museum Types": layers.museumPoints
-    };
-  
-// Create object to hold base layers
-var baseMaps = {
-  "Satellite": satelliteMap,
-  "Dark": darkMap,
-  "Outdoors": outdoorsMap
-};
-
 /* // Initialize an object containing icons for each layer group
 var icons = {
   History: L.ExtraMarkers.icon({
@@ -89,6 +57,9 @@ var icons = {
     shape: "circle"
   })
 }; */
+
+var stateData = new L.GeoJSON.AJAX("http://eric.clst.org/assets/wiki/uploads/Stuff/gz_2010_us_040_00_500k.json");  
+stateData.addTo(layers.stateBounds);    
 
 // Load data from "/map/" route
 d3.json("/map/")
@@ -182,6 +153,43 @@ d3.json("/map/")
     Type: " + type);
     }});
 
+  // Create the tile layer that will be the background of our map
+  var darkMap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/dark-v9/tiles/256/{z}/{x}/{y}?access_token={accessToken}", {
+  attribution: "Map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"http://mapbox.com\">Mapbox</a>",
+  maxZoom: 18,
+  id: "mapbox.dark",
+  accessToken: API_KEY
+});
+
+var outdoorsMap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/outdoors-v9/tiles/256/{z}/{x}/{y}?access_token={accessToken}", {
+  attribution: "Map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"http://mapbox.com\">Mapbox</a>",
+  maxZoom: 18,
+  id: "mapbox.outdoors",
+  accessToken: API_KEY
+});
+
+var satelliteMap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/256/{z}/{x}/{y}?access_token={accessToken}", {
+  attribution: "Map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"http://mapbox.com\">Mapbox</a>",
+  maxZoom: 18,
+  id: "mapbox.satellite",
+  accessToken: API_KEY
+});
+
+// Create overlays object for toggling
+var overlayMaps = {
+    "Museum Types": layers.museumPoints,
+    "State Boundaries": layers.stateBounds
+    //"Search": layers.searchLayer
+    };
+  
+// Create object to hold base layers
+var baseMaps = {
+  "Satellite": satelliteMap,
+  "Dark": darkMap,
+  "Outdoors": outdoorsMap
+};
+
+
 // Create the map with our layers
 var map = L.map("mapid", {
   center: [38.627222, -90.197778],
@@ -190,6 +198,8 @@ var map = L.map("mapid", {
   layers: [
       satelliteMap,
       layers.museumPoints,
+      layers.stateBounds,
+      //layers.searchLayer
   ]
   })
 
@@ -200,6 +210,12 @@ L.control.layers(baseMaps, overlayMaps).addTo(map);
 var legend = L.control({
   position: "bottomright"
 });
+
+//... adding data in searchLayer ...
+for(var i in us_states.features)
+	us_states.features[i].properties.color = getColor( us_states.features[i].properties.density );
+//map.addControl( new L.Control.Search({layer: layers.museumPoints}) );
+//searchLayer is a L.LayerGroup contains searched markers
 
 // When the layer control is added, insert a div with the class of "legend"
 function getColor(d) {
