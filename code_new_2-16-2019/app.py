@@ -64,8 +64,12 @@ def museumsMap():
         mapDataDict["Income"] = result.income
         mapDataDict["Revenue"] = result.Revenue
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         mapDataDict["State"] = result.state
 
+=======
+        mapDataDict["state"] = result.state
+>>>>>>> Stashed changes
 =======
         mapDataDict["state"] = result.state
 >>>>>>> Stashed changes
