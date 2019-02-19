@@ -104,7 +104,7 @@ d3.json("/map/")
       lon = museumBasicData.Longitude,
       name = museumBasicData.museum_name,
       type = museumBasicData.museum_type;
-
+    
         // History Type
         if (type === 'HISTORY MUSEUM') {
           //icon = icons.History;
@@ -227,3 +227,49 @@ legend.onAdd = function() {
 };
 // Add the info legend to the map
 legend.addTo(map);
+
+//INCOME BAR CHART
+
+var url = "/map/";
+
+function buildPlot() {
+  d3.json(url).then(function(response) {
+
+    console.log("DATATATA: " + JSON.stringify(response));
+    // response.map(data => map.Income)
+    // response.map(data => map.museum_name)
+    var trace = {
+      type: "bar",
+      name: "Museum Income",
+      y: response.map(data => data.Income),
+      x: response.map(data => data.museum_name),
+      transforms: [{
+        type: 'filter',
+        target: 'y',
+        operation: '>',
+        value: 0
+      }],
+      line: {
+        color: "#17BECF"
+      }
+    };
+    console.log("yy55 " + JSON.stringify(trace));
+    var data = [trace];
+
+    var layout = {
+      title: "Museum Income",
+      xaxis: {
+        type: "linear"
+      },
+      yaxis: {
+        autorange: true,
+        type: "log"
+      }
+    };
+
+    Plotly.newPlot("plot", data);
+  });
+}
+
+buildPlot();
+
