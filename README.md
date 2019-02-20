@@ -43,3 +43,10 @@ maps, enable user selections, and add visual styling to all charts
 discussion/demo of visualization choices)
 
 ---Project is due and will be presented on February 20th, 2019---
+
+############# ATTENTION! ##################################################################
+### UPON CREATION OF THE SQLITE FILE, PLEASE DOWNLOAD DB BROWSER FOR SQLITE 
+### https://sqlitebrowser.org/dl/ and change the "museum_id" column to be 
+### the database primary key. This is a workaround for a known problem with 
+### .to_sql that doesn't allow for setting the primary key during database creation. 
+############################################################################################
