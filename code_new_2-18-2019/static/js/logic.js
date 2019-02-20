@@ -1,16 +1,4 @@
 // Initialize the LayerGroups we'll be using
-
-//var layers = {
-  // museumPoints: new L.LayerGroup()
-// new L.LayerGroup(historyPoints);
-// new L.LayerGroup(gardenPoints);
-// new L.LayerGroup(sciencePoints);
-// new L.LayerGroup(preservationPoints);
-// new L.LayerGroup(generalPoints);
-// new L.LayerGroup(zooPoints);
-// new L.LayerGroup(artPoints);
-// new L.LayerGroup(childrensPoints);
-
 var historyPoints = new L.LayerGroup(),
 gardenPoints = new L.LayerGroup(),
 sciencePoints = new L.LayerGroup(),
@@ -18,8 +6,9 @@ preservationPoints = new L.LayerGroup(),
 generalPoints = new L.LayerGroup(),
 zooPoints = new L.LayerGroup(),
 artPoints = new L.LayerGroup(),
-childrensPoints = new L.LayerGroup(),
-preservationPointsData = new L.LayerGroup();
+childrensPoints = new L.LayerGroup();
+//heatMap = new L.heatLayer();
+//preservationPointsData = new L.LayerGroup();
 
 historyPoints.toGeoJSON();
 gardenPoints.toGeoJSON();
@@ -51,12 +40,21 @@ var satelliteMap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/satellit
   id: "mapbox.satellite",
   accessToken: API_KEY
 });
-  
+
+var interstateMap = L.esri.featureLayer({
+  url: "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/USInterstates/FeatureServer/0",
+  opacity: 0.8});
+
+// Load population density
+var populationDensity = L.esri.tiledMapLayer({
+  url: "https://tiles.arcgis.com/tiles/4yjifSiIG17X0gW4/arcgis/rest/services/Population_Density_Global_Dataset/MapServer", 
+  opacity: 0.7});
+
 // Create object to hold base layers
 var baseMaps = {
   "Dark": darkMap,
   "Satellite": satelliteMap,
-  "Outdoors": outdoorsMap
+  "Outdoors": outdoorsMap,
 };
 
 var overlayMaps = {
@@ -67,67 +65,21 @@ var overlayMaps = {
   "General": generalPoints,
   "Zoo": zooPoints,
   "Art": artPoints,
-  "Childrens": childrensPoints
+  "Childrens": childrensPoints,
+  "Pop Density": populationDensity,
+  "Interstates": interstateMap
+  //"Museum Heatmap": heatMap
 }
-
-/* // Initialize an object containing icons for each layer group
-var icons = {
-  History: L.ExtraMarkers.icon({
-    icon: "ion-settings",
-    iconColor: "white",
-    markerColor: "yellow",
-    shape: "star"
-  }),
-  Garden: L.ExtraMarkers.icon({
-    icon: "ion-android-bicycle",
-    iconColor: "white",
-    markerColor: "red",
-    shape: "circle"
-  }),
-  Science: L.ExtraMarkers.icon({
-    icon: "ion-minus-circled",
-    iconColor: "white",
-    markerColor: "blue-dark",
-    shape: "penta"
-  }),
-  General: L.ExtraMarkers.icon({
-    icon: "ion-android-bicycle",
-    iconColor: "white",
-    markerColor: "orange",
-    shape: "circle"
-  }),
-  History_Preservation: L.ExtraMarkers.icon({
-    icon: "ion-android-bicycle",
-    iconColor: "white",
-    markerColor: "green",
-    shape: "circle"
-  }),
-  Zoo: L.ExtraMarkers.icon({
-    icon: "ion-android-bicycle",
-    iconColor: "white",
-    markerColor: "brown",
-    shape: "circle"
-  }),
-  Art: L.ExtraMarkers.icon({
-    icon: "ion-android-bicycle",
-    iconColor: "white",
-    markerColor: "black",
-    shape: "circle"
-  }),
-  Childrens: L.ExtraMarkers.icon({
-    icon: "ion-android-bicycle",
-    iconColor: "white",
-    markerColor: "white",
-    shape: "circle"
-  })
-}; */
 
 // Create the map with our layers
 var map = L.map("mapid", {
+  attributionControl: false,
   center: L.latLng(38.627222, -90.197778),
   zoom: 12,
   worldCopyJump: true,
   layers: [
+      interstateMap,
+      populationDensity,
       darkMap,
       preservationPoints
   ]
@@ -138,12 +90,13 @@ d3.json("/map/")
   .then(function(mapData) {
     var radius = [];
     var color = [];
-    var legend = [];
-    var label = [];
+    //var legend = [];
+    //var label = [];
     //var features = [];
-    var names = [];
-    var incomes = [];
-    var revenues = [];
+    //var names = [];
+    //var incomes = [];
+    //var revenues = [];
+    //var heatArray = [];
 
     for (var i = 0; i < mapData.length; i++) {
       var museumBasicData = Object.assign({}, mapData[i]);
@@ -163,14 +116,16 @@ d3.json("/map/")
         if (type === 'HISTORY MUSEUM') {
           //icon = icons.History;
           color = '#f45c42'
-          radius = 3
+          radius = 5
           legend = 1
           label = "History"
           var historyMarker = L.circleMarker(LatLng, {
             radius: radius,
             color: color,
-            fillOpacity: 0.5,
-            fill: true})
+            weight: 3,
+            fillOpacity: 1,
+            fill: true,
+            fillColor: "#000000"})
             historyMarker.museumID = id
             historyMarker.museumIncome = income
             historyMarker.museumRevenue = revenue
@@ -179,20 +134,22 @@ d3.json("/map/")
             // Add popups to historyMarker
             historyMarker.bindPopup("Name: " + name + "<br>\
             Coords: " + lat + " " + lon + "<br>\
-            Type: " + type); 
+            Type: " + type + "<br>\ Income: $" + income + "<br>\ Revenue: $" + revenue); 
         }
         // Garden Type
         else if (type === 'ARBORETUM, BOTANICAL GARDEN, OR NATURE CENTER') {
           //icon = icons.Garden;
           color = '#f49541'
-          radius = 3
+          radius = 5
           legend = 2
           label = "Garden"
           var gardenMarker = L.circleMarker(LatLng, {
             radius: radius,
             color: color,
-            fillOpacity: 0.5,
-            fill: true})
+            weight: 3,
+            fillOpacity: 1,
+            fill: true,
+            fillColor: "#000000"})
             gardenMarker.museumID = id
             gardenMarker.museumIncome = income
             gardenMarker.museumRevenue = revenue;
@@ -201,20 +158,22 @@ d3.json("/map/")
             // Add popups to gardenPoints
             gardenMarker.bindPopup("Name: " + name + "<br>\
             Coords: " + lat + " " + lon + "<br>\
-            Type: " + type); 
+            Type: " + type + "<br>\ Income: $" + income + "<br>\ Revenue: $" + revenue); 
         }
         // Science Type
         else if (type === 'SCIENCE & TECHNOLOGY MUSEUM OR PLANETARIUM') {
           //icon = icons.Science;
           color = '#f4e841'
-          radius = 3
+          radius = 5
           legend = 3
           label = "Science"
           var scienceMarker = L.circleMarker(LatLng, {
             radius: radius,
             color: color,
-            fillOpacity: 0.5,
-            fill: true})
+            weight: 3,
+            fillOpacity: 1,
+            fill: true,
+            fillColor: "#000000"})
             scienceMarker.museumID = id
             scienceMarker.museumIncome = income
             scienceMarker.museumRevenue = revenue;
@@ -223,26 +182,30 @@ d3.json("/map/")
             // Add popups to sciencePoints
             scienceMarker.bindPopup("Name: " + name + "<br>\
             Coords: " + lat + " " + lon + "<br>\
-            Type: " + type); 
+            Type: " + type + "<br>\ Income: $" + income + "<br>\ Revenue: $" + revenue); 
         }
         // History_Preservation Type
         else if (type === 'HISTORIC PRESERVATION') {
           //icon = icons.History_Preservation;
           color = '#7cf441'
-          radius = 3
+          radius = 5
           legend = 4
           label = "Preservation"
           var preservationMarker = L.circleMarker(LatLng, {
             radius: radius,
             color: color,
-            fillOpacity: 0.5,
-            fill: true})
+            weight: 3,
+            fillOpacity: 1,
+            fill: true,
+            fillColor: "#000000"})
             preservationMarker.museumID = id
             preservationMarker.museum_name = name
             preservationMarker.museumIncome = income
             preservationMarker.museumRevenue = revenue;
             // Add markers to preservationPoints
             preservationMarker.addTo(preservationPoints); 
+            //TODO: refresh point grab when window moves, to feed points below to charts
+            // via marker class additions
 /*               if(map.getBounds().contains(preservationMarker.getLatLng())) {
                 names.push(preservationMarker.museum_name),
                 incomes.push(preservationMarker.museumIncome),
@@ -250,20 +213,22 @@ d3.json("/map/")
             // Add popups to preservationPoints
             preservationMarker.bindPopup("Name: " + name + "<br>\
             Coords: " + lat + " " + lon + "<br>\
-            Type: " + type + "<br>\ Income: " + income); 
+            Type: " + type + "<br>\ Income: $" + income + "<br>\ Revenue: $" + revenue); 
         }
         // General Type
         else if (type === 'GENERAL MUSEUM') {
           //icon = icons.General;
           color = '#41f4ca'
-          radius = 3
+          radius = 5
           legend = 5
           label = "General"
           var generalMarker = L.circleMarker(LatLng, {
             radius: radius,
             color: color,
-            fillOpacity: 0.5,
-            fill: true})
+            weight: 3,
+            fillOpacity: 1,
+            fill: true,
+            fillColor: "#000000"})
             generalMarker.museumID = id
             generalMarker.museumIncome = income
             generalMarker.museumRevenue = revenue;
@@ -272,20 +237,22 @@ d3.json("/map/")
             // Add popups to generalPoints
             generalMarker.bindPopup("Name: " + name + "<br>\
             Coords: " + lat + " " + lon + "<br>\
-            Type: " + type); 
+            Type: " + type + "<br>\ Income: $" + income + "<br>\ Revenue: $" + revenue); 
         }
         // Zoo Type
         else if (type === 'ZOO, AQUARIUM, OR WILDLIFE CONSERVATION') {
           //icon = icons.Zoo;
           color = '#419af4'
-          radius = 3
+          radius = 5
           legend = 6
           label = "Zoo"
           var zooMarker = L.circleMarker(LatLng, {
             radius: radius,
             color: color,
-            fillOpacity: 0.5,
-            fill: true})
+            weight: 3,
+            fillOpacity: 1,
+            fill: true,
+            fillColor: "#000000"})
             zooMarker.museumID = id
             zooMarker.museumIncome = income
             zooMarker.museumRevenue = revenue;
@@ -294,20 +261,22 @@ d3.json("/map/")
             // Add popups to zooPoints
             zooMarker.bindPopup("Name: " + name + "<br>\
             Coords: " + lat + " " + lon + "<br>\
-            Type: " + type); 
+            Type: " + type + "<br>\ Income: $" + income + "<br>\ Revenue: $" + revenue); 
         }
         // Art Type
         else if (type === 'ART MUSEUM') {
           //icon = icons.Art;
           color = '#7641f4'
-          radius = 3
+          radius = 5
           legend = 7
           label = "Art"
           var artMarker = L.circleMarker(LatLng, {
             radius: radius,
             color: color,
-            fillOpacity: 0.5,
-            fill: true})
+            weight: 3,
+            fillOpacity: 1,
+            fill: true,
+            fillColor: "#000000"})
             artMarker.museumID = id
             artMarker.museumIncome = income
             artMarker.museumRevenue = revenue;
@@ -316,20 +285,22 @@ d3.json("/map/")
             // Add popups to artMarker
             artMarker.bindPopup("Name: " + name + "<br>\
             Coords: " + lat + " " + lon + "<br>\
-            Type: " + type); 
+            Type: " + type + "<br>\ Income: $" + income + "<br>\ Revenue: $" + revenue); 
         }
         // Childrens Type
         else {
           //icon = icons.Childrens;
           color = '#df41f4'
-          radius = 3
+          radius = 5
           legend = 8
           label = "Childrens"
           var childrensMarker = L.circleMarker(LatLng, {
             radius: radius,
             color: color,
-            fillOpacity: 0.5,
-            fill: true})
+            weight: 3,
+            fillOpacity: 1,
+            fill: true,
+            fillColor: "#000000"})
             childrensMarker.museumID = id
             childrensMarker.museumIncome = income
             childrensMarker.museumRevenue = revenue;
@@ -338,9 +309,11 @@ d3.json("/map/")
             // Add popups to childrensMarker
             childrensMarker.bindPopup("Name: " + name + "<br>\
             Coords: " + lat + " " + lon + "<br>\
-            Type: " + type); 
+            Type: " + type + "<br>\ Income: $" + income + "<br>\ Revenue: $" + revenue); 
+        }
         }
       }
+    );
 
       /* function buildIncomePlot() {
         var trace = {
@@ -419,7 +392,7 @@ d3.json("/map/")
       Plotly.newPlot("revenue_plot", data, layout);
     };
     buildRevenuePlot(); */
-});
+//});
 
 //     // Define map update behavior
 // map.on('overlayadd', onOverlayAdd);
@@ -452,6 +425,35 @@ d3.json("/map/")
 //   makeData()
 // };
 
+// Create Heatmap
+
+/* d3.json("/map/")
+  .then(function(heatData) {
+    var heatArray = [];
+
+    for (var i = 0; i < heatData.length; i++) {
+      var heatBasicData = Object.assign({}, heatData[i]);
+      //console.log(heatBasicData);
+
+      // Define variable shortcuts from museumBasicData
+       var lat = Number(heatData.latitude),
+      lon = Number(heatData.Longitude),
+      LatLng = L.latLng(lat, lon);
+      console.log(LatLng);
+
+              // Generate Heatmap Points
+              if (LatLng) {
+                heatArray.push(LatLng);
+                console.log(heatArray);
+              }
+            }
+          
+            var heatMap = L.heatLayer(heatArray, {
+              radius: 20,
+              blur: 35
+            });
+          }); */
+
 map.addControl( new L.Control.Search({
   url: 'https://nominatim.openstreetmap.org/search?format=json&q={s}',
   jsonpParam: 'json_callback',
@@ -473,26 +475,27 @@ var legend = L.control({
 });
 
 // When the layer control is added, insert a div with the class of "legend"
-function getColor(d) {
-  return d <= 1 ? '#f45c42' :
+function getColorMarkers(d) {
+  return d <= 1 ? '#CCCCCC' :
+  d <= 1 ? '#f45c42' :
   d <= 2 ? '#f49541' :
   d <= 3 ? '#f4e841' :
   d <= 4 ? '#7cf441' :
   d <= 5 ? '#41f4ca' :
   d <= 6 ? '#419af4' :
   d <= 7 ? '#7641f4' :
-          '#df41f4' ;
+           '#df41f4' ;
 };
 
 legend.onAdd = function() {
   var div = L.DomUtil.create("div", "legend"),
     //values = [legend]
     values = [1, 2, 3, 4, 5, 6, 7, 8]
-    labels = ["History", "Garden", "Science", "Preservation", "General", "Zoo", "Art", "Childrens"];
+    labels = ["Museum Types", "History", "Garden", "Science", "Preservation", "General", "Zoo", "Art", "Childrens"];
 
     for (var i = 0; i < values.length; i++) {
       div.innerHTML +=
-        '<i style="background:' + getColor(values[i]) + '"></i> ' + labels[i] + "<br>"
+        '<i style="background:' + getColorMarkers(values[i]) + '"></i> ' + labels[i] + "<br>"
     };
   return div;
 
@@ -500,57 +503,67 @@ legend.onAdd = function() {
 // Add the info legend to the map
 legend.addTo(map);
 
-////////////////////////////////////////////////////////////////////////
+// Add pop density legend
+var popLegend = L.control({
+  position: "bottomright"
+});
 
+// When the layer control is added, insert a div with the class of "legend"
+function getColorPopDensity(d) {
+  return d <= 1 ? '#CCCCCC' :
+  d <= 1 ? '#fff100' :
+  d <= 2 ? '#ff9642' :
+  d <= 3 ? '#df0707' :
+  d <= 4 ? '#a51927' :
+  d <= 5 ? '#802737' :
+           '#604245' ;
+};
 
+popLegend.onAdd = function() {
+  var div = L.DomUtil.create("div", "legend"),
+    //values = [legend]
+    values = [1, 2, 3, 4, 5, 6]
+    labels = ["Population Density", "Highest", "Very High", "High", "Low", "Very Low", "Lowest"];
+
+    for (var i = 0; i < values.length; i++) {
+      div.innerHTML +=
+        '<i style="background:' + getColorPopDensity(values[i]) + '"></i> ' + labels[i] + "<br>"
+    };
+  return div;
+
+};
+// Add the info legend to the map
+popLegend.addTo(map);
+
+// Add image legend to map for pop density
+/* var MyControl = L.Control.extend({
+  options: {
+    position: 'bottomright'
+  },
+
+  onAdd: function (map) {
+    var container = L.DomUtil.create('img_div', 'my-custom-control');
+
+    // ... initialize other DOM elements, add listeners, etc.
+    return container;
+  }
+});
+
+map.addControl(new MyControl()); */
+
+/*  var popLegend = L.control({position: 'bottomright'});
+ popLegend.onAdd = function(map){
+     var div = L.DomUtil.create('div', 'popLegend');
+     div.innerHTML= "<img src='../static/images/Pop_density_legend.PNG'/>";
+     return div;
+ }
+ popLegend.addTo(map);
+ */
 // Income Chart
 var url = "/map/";
 
-/* function buildIncomePlot() {
-  d3.json(url).then(function(response) {
-    var trace = {
-      x: response.map(data => data.museum_type),
-      y: response.map(data => data.Income),//.sort(function compareFunction(firstNum, secondNum){
-      //  return firstNum - secondNum;
-      //}),
-      mode: "markers",
-      type: "scatter",
-      name: "Museum Income",
-      transforms: [{
-        type: 'filter',
-        target: 'y',
-        operation: '>=',
-        value: 0
-      }],
-      line: {
-        color: "#17BECF"
-      }
-    };
-  
-    var data = [trace];
-  
-    var layout = {
-      title: "Museum Income",
-      xaxis: {
-        type: "category",
-        
-        autorange: true
-      },
-      yaxis: {   
-        type: "log",
-        title: "Museum Income",
-        autorange: true
-      }
-    };
-  
-    Plotly.newPlot("income_plot", data, layout);
-  })};
-  buildIncomePlot(); */
-
   //function buildIncomePlot() {
     d3.json(url).then(function(response) {
-
-      //console.log(response);
 
       var historyType = response.filter(function (row){
         if (row.museum_type === 'HISTORY MUSEUM') {
@@ -758,7 +771,8 @@ var url = "/map/";
         title: {
           text: "Museum Income",
           font: {
-            size: 30
+            size: 30,
+            family: "Arial"
           }},
 
           paper_bgcolor: '#cccccc',
@@ -768,7 +782,8 @@ var url = "/map/";
           title: "Museum Income (Filtered to <$2 mil)",
           zeroline: true,
           titlefont: {
-            size: 18
+            size: 18,
+            family: "Arial"
           }
         },
         //boxmode: 'group'
@@ -777,10 +792,7 @@ var url = "/map/";
     
       Plotly.newPlot("income_plot", data, layout);
     
-
-
-// // Revenue Chart
-
+// Revenue Chart
 var trace1 = {
   y: historyType.map(data => data.Revenue),
   type: "box",
@@ -954,7 +966,8 @@ var layout = {
   title: {
     text: "Museum Revenue",
     font: {
-      size: 30
+      size: 30,
+      family: "Arial"
     }},
 
   paper_bgcolor: '#cccccc',
@@ -964,7 +977,8 @@ var layout = {
     title: "Museum Revenue (Filtered to <$2 mil)",
     zeroline: true,
     titlefont: {
-      size: 18
+      size: 18,
+      family: "Arial"
     }
   },
   //boxmode: 'group'
@@ -974,45 +988,3 @@ var layout = {
 Plotly.newPlot("revenue_plot", data, layout);
 
 });
-
-//buildRevenuePlot();
-
-/* function buildRevenuePlot() {
-  d3.json(url).then(function(response) {
-    var trace = {
-      x: response.map(data => data.museum_type),
-      y: response.map(data => data.Revenue),//.sort(function compareFunction(firstNum, secondNum){
-      //  return firstNum - secondNum;
-      //}),
-      mode: "markers",
-      type: "scatter",
-      name: "Museum Revenue",
-      transforms: [{
-        type: 'filter',
-        target: 'y',
-        operation: '>=',
-        value: 0
-      }],
-      line: {
-        color: "#17BECF"
-      }
-    };
-  
-    var data = [trace];
-  
-    var layout = {
-      title: "Museum Revenue",
-      xaxis: {
-        type: "category",
-        autorange: true
-      },
-      yaxis: {   
-        type: "log",
-        title: "Museum Revenue",
-        autorange: true
-      }
-    };
-  
-    Plotly.newPlot("revenue_plot", data, layout);
-  })};
-  buildRevenuePlot(); */
