@@ -39,12 +39,12 @@ and javascript in the browser (via API)
 
 ~~6. Compose rough wireframe of HTML index page
 
-7. Complete "app.js" file to bring in data from mysql via flask, build the charts and
+~~7. Complete "app.js" file to bring in data from mysql via flask, build the charts and
 maps, enable user selections, and add visual styling to all charts
 
 ~~8. Complete "style.css" to customize styling of the HTML index page
 
-9. Prepare presentation (theme & user story, coding approach, data munging required, and
+~~9. Prepare presentation (theme & user story, coding approach, data munging required, and
 discussion/demo of visualization choices)
 
 ---Project is due and will be presented on February 20th, 2019---
