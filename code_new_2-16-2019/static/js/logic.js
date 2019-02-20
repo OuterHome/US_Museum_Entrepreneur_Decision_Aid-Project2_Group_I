@@ -154,9 +154,12 @@ d3.json("/map/")
       name = museumBasicData.museum_name,
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       type = museumBasicData.museum_type;
     
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
       type = museumBasicData.museum_type,
@@ -510,6 +513,7 @@ legend.addTo(map);
 
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 //INCOME BAR CHART
 
 var url = "/map/";
@@ -530,6 +534,8 @@ function buildPlot() {
         target: 'y',
         operation: '>',
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 ////////////////////////////////////////////////////////////////////////
@@ -553,6 +559,9 @@ var url = "/map/";
         target: 'y',
         operation: '>=',
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -562,6 +571,7 @@ var url = "/map/";
         color: "#17BECF"
       }
     };
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
     console.log("yy55 " + JSON.stringify(trace));
@@ -585,6 +595,8 @@ var url = "/map/";
 buildPlot();
 
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
   
@@ -1071,6 +1083,10 @@ Plotly.newPlot("revenue_plot", data, layout);
     Plotly.newPlot("revenue_plot", data, layout);
   })};
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+  buildRevenuePlot(); */
+>>>>>>> Stashed changes
+=======
   buildRevenuePlot(); */
 >>>>>>> Stashed changes
 =======
