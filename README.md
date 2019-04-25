@@ -1,6 +1,6 @@
 # Project2_GroupI
 
-Project Abstract: Design a visual decision-aid for entrepreneurs interested in opening a new museum,
+Project Abstract: Design a visual decision aid for entrepreneurs interested in opening a new museum,
 to include interactive map displaying museums by typeacross the United States, a layer displaying population density,
 a search tool to navigate to particular areas of interest, a box plot for revenue by type, and a box plot for income by type. 
 
