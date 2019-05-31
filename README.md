@@ -1,4 +1,4 @@
-# Project2_GroupI
+# U.S. Museum Entrepreneur Decision Aid
 
 Project Abstract: Design a visual decision aid for entrepreneurs interested in opening a new museum,
 to include interactive map displaying museums by type across the United States, a layer displaying population density,
